@@ -1,4 +1,7 @@
 .idea/
-*.xml
 *.pyc
+templates/
+static/
+logs/
+media/
 migrations/

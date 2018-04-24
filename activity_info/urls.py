@@ -15,7 +15,9 @@ Including another URLconf
 """
 from rest_framework import routers
 
+from activity_info.views import ActivityInfoView
+
 router = routers.SimpleRouter()
-# router.register(r'invitation', InvitationView)
+router.register(r'activity', ActivityInfoView)
 
 urlpatterns = router.urls

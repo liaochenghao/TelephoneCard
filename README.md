@@ -21,4 +21,5 @@
 
 **用户信息接口**:
 - [获取活动信息接口](docs/get_activity_info.md)
+- [创建用户信息接口](docs/create_user_info.md)
 - [获取用户信息接口](docs/get_user_info.md)

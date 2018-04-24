@@ -68,6 +68,17 @@ class UserDetailInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixin
     queryset = UserDetailInfo.objects.all()
     serializer_class = UserDetailInfoSerializer
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        param = self.request.query_params
+        openid = param.get('openid')
+        status = param.get('status')
+        if openid:
+            queryset = queryset.filter(openid=openid)
+        if status:
+            queryset = queryset.filter(status=status)
+        return queryset
+
     @list_route(['GET'])
     def check_user_detail(self, request):
         """

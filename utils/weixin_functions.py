@@ -69,6 +69,24 @@ class WxInterface:
         logger.info(res)
         return
 
+    # 调用微信接口向用户发送模板消息
+    def send_template_message(self, to_user, template_id, form_id, access_token):
+        url = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=" + access_token
+        params = {
+            "touser": to_user,
+            "msgtype": "text",
+            "text": {
+                "content": "123"
+            }
+        }
+        response = requests.post(url=url, data=json.dumps(params), headers={'Content-Type': 'application/json'})
+        if response.status_code != 200:
+            logger.info('WxInterface code_authorize response: %s' % response.text)
+            raise exceptions.ValidationError('连接微信服务器异常')
+        res = response.json()
+        logger.info(res)
+        return
+
     def get_access_token(self):
         url = "https://api.weixin.qq.com/cgi-bin/token"
         params = {

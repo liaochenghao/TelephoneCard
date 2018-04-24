@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'user_info',
+    'activity_info',
 ]
 
 MIDDLEWARE = [
@@ -67,7 +68,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'telephone_card',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': 123456,
         'HOST': 'localhost',
         'PORT': 3306,
         'CHARSET': 'UTF-8',
@@ -146,11 +147,7 @@ LOGGING = {
             'level': 'INFO',
             'propagate': False
         },
-        'django.db': {
-            'handlers': ['file', 'console'],
-            'propagate': False,
-            'level': 'DEBUG',
-        }
+
     }
 }
 

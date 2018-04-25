@@ -7,8 +7,8 @@ from django.db import transaction
 from rest_framework.decorators import list_route
 from rest_framework.response import Response
 
-from record.models import InvitationRecord
-from record.serializers import InvitationRecordSerializer
+from record.models import InvitationRecord, TelephoneChargesRecord
+from record.serializers import InvitationRecordSerializer, TelephoneChargesRecordSerializer
 from user_info.models import UserInfo, UserDetailInfo
 
 logger = logging.getLogger('django')
@@ -40,3 +40,19 @@ class InvitationRecordView(mixins.CreateModelMixin, viewsets.GenericViewSet, mix
             user_detail_info.save()
         return Response()
 
+
+class TelephoneChargesRecordView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixins.ListModelMixin,
+                                 mixins.RetrieveModelMixin, mixins.UpdateModelMixin):
+    queryset = TelephoneChargesRecord.objects.all()
+    serializer_class = TelephoneChargesRecordSerializer
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        param = self.request.query_params
+        user_id = param.get('user_id')
+        operation = param.get('operation')
+        if user_id:
+            queryset = queryset.filter(user_id=user_id)
+        if operation:
+            queryset = queryset.filter(operation=operation)
+        return queryset

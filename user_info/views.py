@@ -1,13 +1,18 @@
+import uuid
+
 from django.db import transaction
 from rest_framework import mixins, viewsets, serializers
 from rest_framework.decorators import list_route
 from rest_framework.response import Response
 import logging
 import re
+
+from record.models import ManMadeRecord
 from user_info.models import UserInfo, UserDetailInfo
 from user_info.serializers import UserInfoSerializer, UserDetailInfoSerializer
 from utils.weixin_functions import WxInterfaceUtil
 from utils.telephone_functions import TelephoneInterfaceUtil
+
 logger = logging.getLogger('django')
 
 
@@ -104,3 +109,48 @@ class UserDetailInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixin
             raise serializers.ValidationError('Telephone is wrong')
         message_code = TelephoneInterfaceUtil.send_message(params.get('telephone'))
         return Response(message_code)
+
+    @list_route(['GET'])
+    def update_status(self, request):
+        params = request.query_params
+        openid = params.get('openid')
+        status = params.get('status')
+        if not all((openid, status)):
+            raise serializers.ValidationError('Param (openid, status) is not none')
+        if status not in ('0', '1', '2', '3', '4', '5'):
+            raise serializers.ValidationError('Param status invalid')
+        user_detail = UserDetailInfo.objects.filter(user=openid).first()
+        if not user_detail:
+            raise serializers.ValidationError('User Not Exist')
+        user_detail.status = status
+        user_detail.save()
+        return Response()
+
+    @list_route(['GET'])
+    @transaction.atomic()
+    def update_man_made_status(self, request):
+        """
+        人工审核修改状态
+        :param request: 
+        :return: 
+        """
+        params = request.query_params
+        operator = params.get('operator')
+        target_user_id = params.get('target_user_id')
+        status = params.get('man_made_status')
+        extra = params.get('extra')
+        if not all((operator, target_user_id, status)):
+            raise serializers.ValidationError('Param (operator, target_user_id, status) is not none')
+        if status not in ('0', '1'):
+            raise serializers.ValidationError('Param status invalid')
+        user_detail = UserDetailInfo.objects.filter(user=target_user_id).first()
+        if not user_detail:
+            raise serializers.ValidationError('User Not Exist')
+        if status == 0 and user_detail.status >= 3:
+            raise serializers.ValidationError('快速通道已通过审核')
+        user_detail.status = 2 if status == 0 else 3
+        user_detail.man_made_status = status
+        user_detail.save()
+        # 将人工审核记录录入到后台数据库
+        ManMadeRecord.objects.create(id=str(uuid.uuid4()), operator=operator, target_user=target_user_id, extra=extra)
+        return Response()

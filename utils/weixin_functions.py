@@ -2,6 +2,8 @@
 import datetime
 import json
 import logging
+import random
+
 import requests
 from rest_framework import exceptions
 
@@ -40,8 +42,12 @@ class WxInterface:
             user = UserInfo.objects.filter(openid=res['openid']).first()
             if not user:
                 # 如果用户不存在，则向数据库插入数据
+                # 给用户生成活动码
+                seed = random.random()
+                code = str(int(seed * 1000000))
+                code = code + '8' if len(code) < 6 else code
                 user = UserInfo.objects.create(openid=res['openid'], last_login=datetime.datetime.now(),
-                                               session_key=res['session_key'])
+                                               session_key=res['session_key'], code=code)
             else:
                 # 如果用户存在则修改最近登录时间
                 user.last_login = datetime.datetime.now()

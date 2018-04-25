@@ -56,7 +56,7 @@ class UserDetailInfo(models.Model):
 
 
 class BackendUser(models.Model):
-    id = models.AutoField('序列号')
+    id = models.AutoField('序号', primary_key=True)
     user_name = models.CharField('用户名', max_length=64)
     password = models.CharField('密码', max_length=32)
     create_at = models.DateTimeField('创建时间', auto_now_add=True, null=True)

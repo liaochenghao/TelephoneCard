@@ -3,10 +3,11 @@ from rest_framework import mixins, viewsets, serializers
 from rest_framework.decorators import list_route
 from rest_framework.response import Response
 import logging
+import re
 from user_info.models import UserInfo, UserDetailInfo
 from user_info.serializers import UserInfoSerializer, UserDetailInfoSerializer
 from utils.weixin_functions import WxInterfaceUtil
-
+from utils.telephone_functions import TelephoneInterfaceUtil
 logger = logging.getLogger('django')
 
 
@@ -90,4 +91,16 @@ class UserDetailInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixin
         if not params.get('openid'):
             raise serializers.ValidationError('Param openid is none')
         user_detail_info = UserDetailInfo.objects.filter(openid=params.get('openid')).first()
-        return True if user_detail_info else False
+        return Response(True if user_detail_info else False)
+
+    @list_route(['GET'])
+    def message_code(self, request):
+        params = request.query_params
+        if not params.get('telephone'):
+            raise serializers.ValidationError('Param telephone is none')
+        phone_pat = re.compile("^(13\d|14[5|7]|15\d|166|17[3|6|7]|18\d)\d{8}$")
+        res = re.search(phone_pat, params.get('telephone'))
+        if not res:
+            raise serializers.ValidationError('Telephone is wrong')
+        message_code = TelephoneInterfaceUtil.send_message(params.get('telephone'))
+        return Response(message_code)

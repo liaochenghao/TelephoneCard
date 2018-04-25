@@ -30,4 +30,5 @@
 - [修改用户详细信息接口](docs/update_detail_user_info.md)
 - [修改用户状态接口](docs/update_detail_user_status.md)
 - [人工审核修改用户状态接口](docs/manmade_update_detail_user_status.md)
+- [快速通道记录](docs/quick_pass_record.md)
 

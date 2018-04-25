@@ -21,5 +21,11 @@
 
 **用户信息接口**:
 - [获取活动信息接口](docs/get_activity_info.md)
-- [创建用户信息接口](docs/create_user_info.md)
-- [获取用户信息接口](docs/get_user_info.md)
+- [创建用户微信信息接口](docs/create_user_info.md)
+- [通过code验证微信用户信息接口](docs/code_auth.md)
+- [插入用户微信信息接口](docs/check_account.md)
+- [获取短信验证码接口](docs/message_code.md)
+- [获取用户详细信息列表接口](docs/get_detail_user_info_list.md)
+- [创建用户详细信息接口](docs/create_detail_user_info.md)
+- [修改用户详细信息接口](docs/update_detail_user_info.md)
+

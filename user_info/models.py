@@ -34,7 +34,6 @@ class UserDetailInfo(models.Model):
         (3, '身份通过'),
         (4, '待发卡'),
         (5, '已发卡'),
-
     )
     user = models.ForeignKey(UserInfo, on_delete=models.DO_NOTHING)
     c_name = models.CharField('中文名', max_length=30)

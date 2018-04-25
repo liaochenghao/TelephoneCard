@@ -3,7 +3,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
@@ -15,7 +14,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -26,6 +24,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'user_info',
     'activity_info',
+    'record',
 ]
 
 MIDDLEWARE = [
@@ -59,7 +58,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'TelephoneCard.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
@@ -68,7 +66,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'telephone_card',
         'USER': 'root',
-        'PASSWORD': 123456,
+        'PASSWORD': 'root',
         'HOST': 'localhost',
         'PORT': 3306,
         'CHARSET': 'UTF-8',
@@ -151,7 +149,6 @@ LOGGING = {
     }
 }
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
@@ -163,7 +160,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
@@ -183,3 +179,9 @@ REDIS_CONFIG = {
 
 ignore_auth_urls = ['/api/v1/user/authorize/', '/api/v1/invitation/code/', 'api/v1/user/check_account/',
                     '/api/v1/activity/corn/', '/api/v1/user/cp/']
+
+# 中正云短信业务配置
+TELEPHONE_MESSAGE_CONFIG = {
+    'id': 'winhelper',
+    'pwd': 'x564787'
+}

@@ -3,6 +3,9 @@ from django.db import models
 
 # Create your models here.
 class InvitationRecord(models.Model):
+    """
+    邀请好友关注公众号记录表
+    """
     id = models.CharField('序列号', primary_key=True, max_length=64)
     inviter = models.CharField('邀请人编号', max_length=64)
     invitee = models.CharField('被邀请人编号', max_length=64)
@@ -14,6 +17,9 @@ class InvitationRecord(models.Model):
 
 
 class ManMadeRecord(models.Model):
+    """
+    人工审核记录表
+    """
     id = models.CharField('序列号', primary_key=True, max_length=64)
     operator = models.CharField('操作人编号', max_length=64)
     target_user = models.CharField('被操作人编号', max_length=64)
@@ -25,6 +31,9 @@ class ManMadeRecord(models.Model):
 
 
 class TelephoneChargesRecord(models.Model):
+    """
+    电话费用记录表
+    """
     OPERATIONS_CHOICE = (
         (0, '初始话费'),
         (1, '邀请用户'),

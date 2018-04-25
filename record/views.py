@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from record.models import InvitationRecord, TelephoneChargesRecord
 from record.serializers import InvitationRecordSerializer, TelephoneChargesRecordSerializer
 from user_info.models import UserInfo, UserDetailInfo
+from record.utils import TelephoneChargesCompute
 
 logger = logging.getLogger('django')
 
@@ -56,3 +57,17 @@ class TelephoneChargesRecordView(mixins.CreateModelMixin, viewsets.GenericViewSe
         if operation:
             queryset = queryset.filter(operation=operation)
         return queryset
+
+    @list_route(['GET'])
+    @transaction.atomic()
+    def get_telephone_charges(self, request):
+        params = request.query_params
+        code = params.get('code')
+        user_id = params.get('user_id')
+        if not all((code, user_id)):
+            raise serializers.ValidationError('参数(code, user_id)不能为空')
+        inviter = UserInfo.objects.filter(code=code).first()
+        if not inviter:
+            raise serializers.ValidationError('无法根据code获得邀请人')
+        TelephoneChargesCompute.compute_telephone_charges(inviter.openid, 1, 10, extra='邀请用户' + user_id)
+        TelephoneChargesCompute.compute_telephone_charges(user_id, 2, 10, extra='接受用户' + user_id + '邀请')

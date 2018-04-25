@@ -39,6 +39,8 @@ class TelephoneChargesRecord(models.Model):
     OPERATIONS_CHOICE = (
         (0, '初始话费'),
         (1, '邀请用户'),
+        (2, '接受邀请'),
+
     )
     id = models.CharField('序列号', primary_key=True, max_length=64)
     user_id = models.CharField('用户编号', max_length=64)

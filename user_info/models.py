@@ -29,11 +29,21 @@ class UserInfo(models.Model):
 class UserDetailInfo(models.Model):
     STATUS_CHOICE = (
         (0, '提交资料'),
-        (1, '身份确认'),
+        (1, '身份确认中'),
         (2, '身份验证失败'),
         (3, '身份通过'),
         (4, '待发卡'),
         (5, '已发卡'),
+    )
+    MAN_MADE_STATUS_CHOICE = (
+        (-1, '人工审核暂未操作'),
+        (0, '未通过人工认证身份'),
+        (1, '通过人工认证身份')
+    )
+    USER_MADE_STATUS_CHOICE = (
+        (-1, '初始状态'),
+        (0, '未通过用户自己认证身份'),
+        (1, '通过用户自己认证身份')
     )
     user = models.ForeignKey(UserInfo, on_delete=models.DO_NOTHING)
     c_name = models.CharField('中文名', max_length=30)
@@ -48,6 +58,8 @@ class UserDetailInfo(models.Model):
     recipients_phone = models.CharField('收件人手机号', max_length=30)
     recipients_address = models.CharField('邮寄地址', max_length=30)
     status = models.IntegerField(choices=STATUS_CHOICE, default=0)
+    man_made_status = models.IntegerField('人工审核状态', choices=MAN_MADE_STATUS_CHOICE, default=-1)
+    user_made_status = models.IntegerField('用户审核状态', choices=USER_MADE_STATUS_CHOICE, default=-1)
     create_at = models.DateTimeField('创建时间', auto_now_add=True, null=True)
 
     class Meta:

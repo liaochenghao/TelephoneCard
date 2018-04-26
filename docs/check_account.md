@@ -16,6 +16,8 @@
         "city": str,
         "avatar_url": str,
         "language": str,
+        "encryptedData": str,
+        "iv": str
     }
 ```
 

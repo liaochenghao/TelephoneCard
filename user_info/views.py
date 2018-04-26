@@ -44,7 +44,7 @@ class UserInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixins.List
         params = request.data
         encryptedData = params.get('encryptedData')
         iv = params.get('iv')
-        if not (iv, encryptedData):
+        if not all((iv, encryptedData)):
             raise serializers.ValidationError('encryptedData、iv参数不能为空')
         user_info = UserInfo.objects.filter(openid=params.get('openid')).first()
         data = WXBizDataCrypt(WX_SMART_CONFIG['appid'], user_info.session_key)

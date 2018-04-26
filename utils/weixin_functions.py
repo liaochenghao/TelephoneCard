@@ -120,7 +120,7 @@ class WxInterface:
         }
         data = {'scene': code}
         response = requests.post(url=url, params=params, data=data)
-        qr_code_save_path = '%s%s%s%s' % (MEDIA_ROOT, 'qr_code/', code, '.jpg')
+        qr_code_save_path = '%s%s%s%s' % (MEDIA_ROOT, '/qr_code/', code, '.jpg')
         qr_code_url = '%s%s%s%s%s' % (DOMAIN, MEDIA_URL, 'qr_code/', code, '.jpg')
         open(qr_code_save_path, 'wb').write(response.content)
         return qr_code_url

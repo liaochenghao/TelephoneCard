@@ -52,6 +52,7 @@ class UserInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixins.List
         logger.info(iv)
         logger.info(type(iv))
         logger.info(type(encryptedData))
+        logger.info(encryptedData)
         logger.info('=' * 80)
         data = WXBizDataCrypt(WX_SMART_CONFIG['appid'], user_info.session_key)
         user_data = data.decrypt(encryptedData, iv)

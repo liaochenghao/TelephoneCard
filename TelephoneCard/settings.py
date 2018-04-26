@@ -77,7 +77,7 @@ DATABASES = {
         'NAME': 'telephone_card',
         'USER': 'root',
         'PASSWORD': 'Qwe-=00.3690',
-        'HOST': 'localhost',
+        'HOST': '127.0.0.1',
         'PORT': 3306,
         'CHARSET': 'UTF-8',
         'ATOMIC_REQUESTS': True,

@@ -178,8 +178,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 WX_SMART_CONFIG = {
-    'appid': 'wx8876efe53e30197f',
-    'secret': '4679e341aec53b79ba55ed7a7c26fe28'
+    'appid': 'wxfac0f3fae7164266',
+    'secret': '166040561fe5d0413f6ac6f6ea3cac2f'
 }
 # micro_service_domain = 'http://42.51.8.152:7070'
 

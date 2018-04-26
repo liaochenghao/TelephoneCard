@@ -14,6 +14,7 @@ class InvitationRecord(models.Model):
 
     class Meta:
         db_table = 'invitation_record'
+        ordering = ['-create_at']
 
 
 class ManMadeRecord(models.Model):
@@ -28,6 +29,7 @@ class ManMadeRecord(models.Model):
 
     class Meta:
         db_table = 'man_made_record'
+        ordering = ['-create_at']
 
 
 class TelephoneChargesRecord(models.Model):
@@ -37,6 +39,8 @@ class TelephoneChargesRecord(models.Model):
     OPERATIONS_CHOICE = (
         (0, '初始话费'),
         (1, '邀请用户'),
+        (2, '接受邀请'),
+
     )
     id = models.CharField('序列号', primary_key=True, max_length=64)
     user_id = models.CharField('用户编号', max_length=64)
@@ -48,3 +52,4 @@ class TelephoneChargesRecord(models.Model):
 
     class Meta:
         db_table = 'telephone_charges_record'
+        ordering = ['-create_at']

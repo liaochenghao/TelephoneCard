@@ -53,7 +53,7 @@ class WxInterface:
                 # 如果用户存在则修改最近登录时间
                 user.last_login = datetime.datetime.now()
                 user.save()
-            return {'openid': user.openid}
+            return {'openid': user.openid, 'session_key': res.get('session_key')}
         else:
             logger.info('微信认证异常 code_authorize response: %s' % response.text)
             raise exceptions.ValidationError('微信认证异常： %s' % json.dumps(res))

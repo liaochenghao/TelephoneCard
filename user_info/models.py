@@ -7,7 +7,7 @@ class UserInfo(models.Model):
         (1, '男'),
         (2, '女')
     )
-    openid = models.CharField('微信openid', max_length=60)
+    openid = models.CharField('微信openid', max_length=60, primary_key=True)
     nickname = models.CharField('微信昵称', max_length=30, null=True)
     gender = models.IntegerField('性别', choices=SEX_CHOICE, default=0)
     avatar_url = models.CharField('微信头像url', max_length=255, null=True)
@@ -46,7 +46,7 @@ class UserDetailInfo(models.Model):
         (0, '未通过用户自己认证身份'),
         (1, '通过用户自己认证身份')
     )
-    user = models.ForeignKey(UserInfo, on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(UserInfo, on_delete=models.DO_NOTHING, primary_key=True)
     c_name = models.CharField('中文名', max_length=30)
     country = models.CharField('国家', max_length=30)
     university = models.CharField('大学', max_length=60, null=True)

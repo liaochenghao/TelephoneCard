@@ -6,7 +6,7 @@ import random
 
 import requests
 from rest_framework import exceptions
-
+from utils.redis_server import redis_client
 from TelephoneCard.settings import WX_SMART_CONFIG, MEDIA_ROOT, MEDIA_URL, DOMAIN
 from user_info.models import UserInfo
 
@@ -95,6 +95,9 @@ class WxInterface:
         return
 
     def get_access_token(self):
+        access_token = redis_client.get_instance('access_token')
+        if access_token:
+            return access_token
         url = "https://api.weixin.qq.com/cgi-bin/token"
         params = {
             'appid': self.appid,
@@ -106,6 +109,7 @@ class WxInterface:
             logger.info('WxInterface get_access_token response: %s' % response.text)
             raise exceptions.ValidationError('连接微信服务器异常')
         res = response.json()
+        redis_client.set_instance(key='access_token', value=res['access_token'])
         logger.info(res)
         return res['access_token']
 
@@ -119,7 +123,7 @@ class WxInterface:
         response = requests.post(url=url, params=params, data=data)
         qr_code_save_path = '%s%s%s%s' % (MEDIA_ROOT, '/qr_code', code, '.jpg')
         qr_code_url = '%s%s%s%s%s' % (DOMAIN, MEDIA_URL, '/qr_code', code, '.jpg')
-        open(qr_code_save_path,'wb').write(response.content)
+        open(qr_code_save_path, 'wb').write(response.content)
         return qr_code_url
 
 

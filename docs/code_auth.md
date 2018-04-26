@@ -2,7 +2,7 @@
 
 **请求地址**:
 ```
-    GET    /api/v1/user_info/code
+    GET    /api/v1/user_info/authorize/
 ```
 
 **请求参数**:

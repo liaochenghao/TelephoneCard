@@ -76,7 +76,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'telephone_card',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': 'Qwe-=00.3690',
         'HOST': 'localhost',
         'PORT': 3306,
         'CHARSET': 'UTF-8',

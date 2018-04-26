@@ -2,7 +2,7 @@
 
 **请求地址**:
 ```
-    GET     api/v1/activity/{id}
+    GET     api/v1/activity/
 ```
 
 **请求参数**:

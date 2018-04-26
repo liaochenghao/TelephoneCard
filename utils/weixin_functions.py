@@ -7,7 +7,7 @@ import random
 import requests
 from rest_framework import exceptions
 
-from TelephoneCard.settings import WX_SMART_CONFIG
+from TelephoneCard.settings import WX_SMART_CONFIG, MEDIA_ROOT, MEDIA_URL, DOMAIN
 from user_info.models import UserInfo
 
 logger = logging.getLogger('django')
@@ -46,8 +46,9 @@ class WxInterface:
                 seed = random.random()
                 code = str(int(seed * 1000000))
                 code = code + '8' if len(code) < 6 else code
+                qr_code = self.get_forever_qrcode(code)
                 user = UserInfo.objects.create(openid=res['openid'], last_login=datetime.datetime.now(),
-                                               session_key=res['session_key'], code=code)
+                                               session_key=res['session_key'], code=code, qr_code=qr_code)
             else:
                 # 如果用户存在则修改最近登录时间
                 user.last_login = datetime.datetime.now()
@@ -107,6 +108,19 @@ class WxInterface:
         res = response.json()
         logger.info(res)
         return res['access_token']
+
+    def get_forever_qrcode(self, code):
+        url = 'https://api.weixin.qq.com/wxa/getwxacodeunlimit'
+        url = 'http://127.0.0.1/auth/user/check_account/'
+        params = {
+            'access_token': self.get_access_token(),
+        }
+        data = {'scene': code}
+        response = requests.post(url=url, params=params, data=data)
+        qr_code_save_path = '%s%s%s%s' % (MEDIA_ROOT, '/qr_code', code, '.jpg')
+        qr_code_url = '%s%s%s%s%s' % (DOMAIN, MEDIA_URL, '/qr_code', code, '.jpg')
+        open(qr_code_save_path,'wb').write(response.content)
+        return qr_code_url
 
 
 WxInterfaceUtil = WxInterface()

@@ -7,7 +7,7 @@ class UserInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserInfo
         fields = ['openid', 'nickname', 'gender', 'avatar_url', 'city', 'country', 'province', 'unionid', 'session_key',
-                  'privilege', 'language', 'code', 'last_login', 'create_at']
+                  'privilege', 'language', 'code','qr_code', 'last_login', 'create_at']
 
 
 class UserDetailInfoSerializer(serializers.ModelSerializer):

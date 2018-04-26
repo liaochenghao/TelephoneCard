@@ -10,6 +10,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'envee%=%7rooc(xmi6-7gm)^hf^&96oz3=2q#n8qq2avd1evpq'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+
+DOMAIN = '127.0.0.1'
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, '../../media')
+
+if not os.path.isdir(MEDIA_ROOT):
+    os.makedirs(MEDIA_ROOT)
+
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
@@ -152,9 +162,10 @@ LOGGING = {
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-Hans'
 
 TIME_ZONE = 'Asia/Shanghai'
+
 USE_I18N = True
 
 USE_L10N = True

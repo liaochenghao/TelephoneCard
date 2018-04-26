@@ -115,14 +115,13 @@ class WxInterface:
 
     def get_forever_qrcode(self, code):
         url = 'https://api.weixin.qq.com/wxa/getwxacodeunlimit'
-        url = 'http://127.0.0.1/auth/user/check_account/'
         params = {
             'access_token': self.get_access_token(),
         }
         data = {'scene': code}
         response = requests.post(url=url, params=params, data=data)
-        qr_code_save_path = '%s%s%s%s' % (MEDIA_ROOT, '/qr_code', code, '.jpg')
-        qr_code_url = '%s%s%s%s%s' % (DOMAIN, MEDIA_URL, '/qr_code', code, '.jpg')
+        qr_code_save_path = '%s%s%s%s' % (MEDIA_ROOT, 'qr_code/', code, '.jpg')
+        qr_code_url = '%s%s%s%s%s' % (DOMAIN, MEDIA_URL, 'qr_code/', code, '.jpg')
         open(qr_code_save_path, 'wb').write(response.content)
         return qr_code_url
 

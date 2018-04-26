@@ -11,7 +11,9 @@ from record.models import ManMadeRecord
 from user_info.models import UserInfo, UserDetailInfo
 from user_info.serializers import UserInfoSerializer, UserDetailInfoSerializer
 from utils.weixin_functions import WxInterfaceUtil
+from utils.WXBizDataCrypt import WXBizDataCrypt
 from utils.telephone_functions import TelephoneInterfaceUtil
+from TelephoneCard.settings import WX_SMART_CONFIG
 
 logger = logging.getLogger('django')
 
@@ -45,6 +47,11 @@ class UserInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixins.List
         if not (iv, encryptedData):
             raise serializers.ValidationError('encryptedData、iv参数不能为空')
         user_info = UserInfo.objects.filter(openid=params.get('openid')).first()
+        data = WXBizDataCrypt(WX_SMART_CONFIG['appid'], user_info.session_key)
+        user_data = data.decrypt(encryptedData, iv)
+        print(user_info)
+        print(user_data)
+        print(type(user_data))
         if not user_info:
             logger.info('系统错误：无法通过用户openid获取用户信息: openid=%s' % params.get('openid'))
             raise serializers.ValidationError('系统错误：无法通过用户openid获取用户信息: openid=%s' % params.get('openid'))

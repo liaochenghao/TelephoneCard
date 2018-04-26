@@ -44,14 +44,23 @@ class UserInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixins.List
         params = request.data
         encryptedData = params.get('encryptedData')
         iv = params.get('iv')
-        if not (iv, encryptedData):
+        if not all((iv, encryptedData)):
             raise serializers.ValidationError('encryptedData、iv参数不能为空')
         user_info = UserInfo.objects.filter(openid=params.get('openid')).first()
+        logger.info('=' * 80)
+        logger.info('session_key=%s' % user_info.session_key)
+        logger.info(iv)
+        logger.info(type(iv))
+        logger.info(type(encryptedData))
+        logger.info(encryptedData)
+        logger.info('=' * 80)
         data = WXBizDataCrypt(WX_SMART_CONFIG['appid'], user_info.session_key)
         user_data = data.decrypt(encryptedData, iv)
+        logger.info('='*80)
         print(user_info)
         print(user_data)
         print(type(user_data))
+        logger.info('=' * 80)
         if not user_info:
             logger.info('系统错误：无法通过用户openid获取用户信息: openid=%s' % params.get('openid'))
             raise serializers.ValidationError('系统错误：无法通过用户openid获取用户信息: openid=%s' % params.get('openid'))
@@ -61,7 +70,7 @@ class UserInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixins.List
             user_info.unionid = '123123123'
             update_user_tag = True
         # 录入用户信息到数据库，同时也要注意微信用户可能会更换信息
-        if user_info.nick_name != params.get('nickname') or user_info.avatar_url != params.get('avatar_url'):
+        if user_info.nickname != params.get('nickname') or user_info.avatar_url != params.get('avatar_url'):
             update_user_tag = True
             user_info.nickname = params.get('nickname')
             user_info.gender = params.get('gender')

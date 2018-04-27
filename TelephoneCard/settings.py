@@ -45,6 +45,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'middleware.auth_middle.AuthMiddleware',
 ]
 
 ROOT_URLCONF = 'TelephoneCard.urls'
@@ -196,3 +197,4 @@ TELEPHONE_MESSAGE_CONFIG = {
     'id': 'winhelper',
     'pwd': 'x564787'
 }
+

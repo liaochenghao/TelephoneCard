@@ -28,6 +28,9 @@ class InvitationRecordView(mixins.CreateModelMixin, viewsets.GenericViewSet, mix
         unionid = params.get('unionid')
         if not all((invite_code, unionid)):
             raise serializers.ValidationError('Param (invite_code, unionid) must not be none')
+        logger.info('=' * 70)
+        logger.info('invite_code= %s ,unionid=%s' % (invite_code, unionid))
+        logger.info('=' * 70)
         user_info = UserInfo.objects.filter(code=invite_code).first()
         if not user_info:
             raise serializers.ValidationError('邀请码无效，请仔细检查')

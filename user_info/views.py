@@ -80,6 +80,9 @@ class UserInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixins.List
     @list_route(['POST'])
     def take_formid(self, request):
         params = request.data
+        print(request)
+        print('*'*70)
+        print(params)
         openid = params.get('openid')
         formid = params.get('formid')
         UserFormId.objects.create(user_id=openid, form_id=formid,

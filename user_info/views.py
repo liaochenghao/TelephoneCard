@@ -166,7 +166,7 @@ class UserDetailInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixin
 
     @list_route(['GET'])
     def get_user_status(self, request):
-        params = request.data
+        params = request.query_params
         openid = params.get('openid')
         if not openid:
             raise serializers.ValidationError('param openid is none')
@@ -175,7 +175,10 @@ class UserDetailInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixin
             raise serializers.ValidationError('User Not Exist')
         status = user_detail.status
         activity_info = ActivityInfo.objects.filter(type=status).first()
-        return Response(ActivityInfoSerializer(activity_info).data)
+        result = dict()
+        result['status'] = status
+        result['activity_info'] = ActivityInfoSerializer(activity_info).data
+        return Response(result)
 
 
 class BackendUserView(APIView):

@@ -29,6 +29,7 @@
 - [创建用户详细信息接口](docs/create_detail_user_info.md)
 - [检查用户是否录入详细信息接口](docs/check_detail_user_info.md)
 - [修改用户详细信息接口](docs/update_detail_user_info.md)
+- [获取用户状态接口](docs/get_detail_user_status.md)
 - [修改用户状态接口](docs/update_detail_user_status.md)
 - [人工审核修改用户状态接口](docs/manmade_update_detail_user_status.md)
 - [快速通道记录](docs/quick_pass_record.md)

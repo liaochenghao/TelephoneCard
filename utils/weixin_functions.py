@@ -3,7 +3,7 @@ import datetime
 import json
 import logging
 import random
-
+from django.utils import timezone
 import requests
 from rest_framework import exceptions
 from utils.redis_server import redis_client
@@ -51,7 +51,7 @@ class WxInterface:
                                                session_key=res['session_key'], code=code, qr_code=qr_code)
             else:
                 # 如果用户存在则修改最近登录时间
-                user.last_login = datetime.datetime.now()
+                user.last_login = datetime.datetime.now(tz=timezone.utc)
                 user.save()
             return {'openid': user.openid, 'session_key': res.get('session_key')}
         else:

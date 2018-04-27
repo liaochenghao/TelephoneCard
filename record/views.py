@@ -52,6 +52,20 @@ class InvitationRecordView(mixins.CreateModelMixin, viewsets.GenericViewSet, mix
             user_detail_info.save()
         return Response()
 
+    @list_route(['GET'])
+    def invitee_info(self, request):
+        """
+        获取用户邀请伙伴信息
+        :param request: 
+        :return: 
+        """
+        params = request.query_params
+        if not params.get('user_id'):
+            raise serializers.ValidationError('未找到用户信息')
+        result = InvitationRecord.objects.filter(inviter=params.get('user_id'), type=1).\
+            values_list('invitee_avatar_url', 'invitee_nickname', flat=True)
+        return Response(result)
+
 
 class TelephoneChargesRecordView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixins.ListModelMixin,
                                  mixins.RetrieveModelMixin, mixins.UpdateModelMixin):

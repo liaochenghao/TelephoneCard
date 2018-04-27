@@ -41,4 +41,5 @@
 - [获取活动信息接口](docs/get_activity_info.md)
 - [发送模板消息接口](docs/send_template_message.md)
 - [邀请用户扫码加话费接口](docs/add_charges.md)
+- [被邀请的用户信息列表](docs/invitee_info_list.md)
 

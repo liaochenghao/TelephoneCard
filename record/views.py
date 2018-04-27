@@ -64,7 +64,7 @@ class InvitationRecordView(mixins.CreateModelMixin, viewsets.GenericViewSet, mix
         if not params.get('user_id'):
             raise serializers.ValidationError('未找到用户信息')
         invitee_list = InvitationRecord.objects.filter(inviter=params.get('user_id'), type=1). \
-            values_list('invitee_avatar_url', 'invitee_nickname', flat=True)
+            values('invitee_avatar_url', 'invitee_nickname')
         current_user = UserInfo.objects.filter(openid=params.get('user_id')).first()
         result = dict()
         result['invitee_list'] = invitee_list

@@ -1,6 +1,6 @@
+import datetime
 import uuid
 
-import time
 from django.db import transaction
 from rest_framework import mixins, viewsets, serializers
 from rest_framework.decorators import list_route
@@ -82,7 +82,8 @@ class UserInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixins.List
         params = request.data
         openid = params.get('openid')
         formid = params.get('formid')
-        UserFormId.objects.create(user_id=openid, form_id=formid, expire_time=time.time() + 7 * 24 * 60 * 60)
+        UserFormId.objects.create(user_id=openid, form_id=formid,
+                                  expire_time=datetime.datetime.now() + datetime.timedelta(days=+7))
         return Response()
 
 
@@ -170,7 +171,8 @@ class UserDetailInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixin
         user_detail.save()
         # 将人工审核记录录入到后台数据库
         ManMadeRecord.objects.create(id=str(uuid.uuid4()), operator=operator, target_user=target_user_id, extra=extra)
-        formid_obj = UserFormId.objects.filter(user_id=target_user_id, expiration_time__gt=time.time()).first()
+        formid_obj = UserFormId.objects.filter(user_id=target_user_id,
+                                               expiration_time__gt=datetime.datetime.now()).first()
         if formid_obj:
             template_info = TemplateInfo.objects.filter(type=2).first()
             data = {
@@ -197,6 +199,9 @@ class UserDetailInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixin
                 }
             }
             WxInterfaceUtil.send_template_message(data)
+        else:
+            # 调取短信接口
+            pass
 
         return Response()
 

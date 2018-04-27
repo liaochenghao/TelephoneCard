@@ -17,3 +17,6 @@ class UserDetailInfoSerializer(serializers.ModelSerializer):
                   'recipients_name', 'recipients_phone', 'recipients_address', 'status', 'create_at']
         # read_only_fields = ['user_id']
 
+    def create(self, validated_data):
+        print(validated_data)
+        return super().create(validated_data)

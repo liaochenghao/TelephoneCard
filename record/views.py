@@ -37,12 +37,13 @@ class InvitationRecordView(mixins.CreateModelMixin, viewsets.GenericViewSet, mix
         user_info = UserInfo.objects.filter(code=invite_code).first()
         if not user_info:
             raise serializers.ValidationError('邀请码无效，请仔细检查')
-        record = InvitationRecord.objects.filter(inviter=user_info.openid, invitee=unionid).first()
+        record = InvitationRecord.objects.filter(inviter=user_info.openid, invitee=unionid, type=0).first()
         if record:
-            raise serializers.ValidationError('您已成功帮助好友【'+user_info.nickname+'】进行认证咯')
+            raise serializers.ValidationError('您已成功帮助好友【' + user_info.nickname + '】进行认证咯')
         InvitationRecord.objects.create(id=str(uuid.uuid4()), inviter=user_info.openid, invitee=unionid,
-                                        invitee_nickname=invitee_nickname, invitee_avatar_url=invitee_avatar_url)
-        total = InvitationRecord.objects.filter(inviter=user_info.openid).count()
+                                        invitee_nickname=invitee_nickname, invitee_avatar_url=invitee_avatar_url,
+                                        type=0)
+        total = InvitationRecord.objects.filter(inviter=user_info.openid, type=0).count()
         if total >= 3:
             # 快速通道审核成功
             user_detail_info = UserDetailInfo.objects.filter(user=user_info.openid).first()

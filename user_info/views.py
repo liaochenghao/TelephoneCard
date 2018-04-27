@@ -9,6 +9,8 @@ import re
 
 from rest_framework.views import APIView
 
+from activity_info.models import ActivityInfo
+from activity_info.serializers import ActivityInfoSerializer
 from record.models import ManMadeRecord
 from user_info.models import UserInfo, UserDetailInfo, BackendUser
 from user_info.serializers import UserInfoSerializer, UserDetailInfoSerializer
@@ -126,7 +128,7 @@ class UserDetailInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixin
             raise serializers.ValidationError('Param (openid, status) is not none')
         if status not in ('0', '1', '2', '3', '4', '5'):
             raise serializers.ValidationError('Param status invalid')
-        user_detail = UserDetailInfo.objects.filter(user=openid).first()
+        user_detail = UserDetailInfo.objects.filter(user_id=openid).first()
         if not user_detail:
             raise serializers.ValidationError('User Not Exist')
         user_detail.status = status
@@ -168,7 +170,12 @@ class UserDetailInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixin
         openid = params.get('openid')
         if not openid:
             raise serializers.ValidationError('param openid is none')
-        pass
+        user_detail = UserDetailInfo.objects.filter(user_id=openid).first()
+        if not user_detail:
+            raise serializers.ValidationError('User Not Exist')
+        status = user_detail.status
+        activity_info = ActivityInfo.objects.filter(type=status).first()
+        return Response(ActivityInfoSerializer(activity_info).data)
 
 
 class BackendUserView(APIView):

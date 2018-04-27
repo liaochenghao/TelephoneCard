@@ -7,7 +7,7 @@ from rest_framework.decorators import list_route
 from rest_framework.response import Response
 import logging
 import re
-
+from django.utils import timezone
 from rest_framework.views import APIView
 from activity_info.models import ActivityInfo
 from activity_info.serializers import ActivityInfoSerializer
@@ -83,7 +83,7 @@ class UserInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixins.List
         openid = params.get('openid')
         formid = params.get('formid')
         UserFormId.objects.create(user_id=openid, form_id=formid,
-                                  expire_time=datetime.datetime.now() + datetime.timedelta(days=+7))
+                                  expire_time=datetime.datetime.now(tz=timezone.utc) + datetime.timedelta(days=+7))
         return Response()
 
 

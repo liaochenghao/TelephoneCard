@@ -82,8 +82,8 @@ class UserInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixins.List
         params = request.data
         openid = params.get('openid')
         formid = params.get('formid')
-        UserFormId.objects.create(user_id=openid, form_id=formid, expiration_time=time.time() + 7 * 24 * 60 * 60)
-        return Response('成功')
+        UserFormId.objects.create(user_id=openid, form_id=formid, expire_time=time.time() + 7 * 24 * 60 * 60)
+        return Response()
 
 
 class UserDetailInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixins.ListModelMixin,

@@ -52,6 +52,7 @@ class InvitationRecordView(mixins.CreateModelMixin, viewsets.GenericViewSet, mix
             user_detail_info.save()
         return Response()
 
+    @list_route(['GET'])
     def invitee_info(self, request):
         """
         获取用户邀请伙伴信息

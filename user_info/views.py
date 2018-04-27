@@ -7,8 +7,10 @@ from rest_framework.response import Response
 import logging
 import re
 
+from rest_framework.views import APIView
+
 from record.models import ManMadeRecord
-from user_info.models import UserInfo, UserDetailInfo
+from user_info.models import UserInfo, UserDetailInfo, BackendUser
 from user_info.serializers import UserInfoSerializer, UserDetailInfoSerializer
 from utils.weixin_functions import WxInterfaceUtil
 from utils.WXBizDataCrypt import WXBizDataCrypt
@@ -159,3 +161,13 @@ class UserDetailInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixin
         # 将人工审核记录录入到后台数据库
         ManMadeRecord.objects.create(id=str(uuid.uuid4()), operator=operator, target_user=target_user_id, extra=extra)
         return Response()
+
+
+class BackendUserView(APIView):
+
+    def get(self, request):
+        params = request.query_params
+        username = params.get('username')
+        password = params.get('password')
+        user = BackendUser.objects.filter(user_name=username, password=password).first()
+        return Response(True if user else False)

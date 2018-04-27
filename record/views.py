@@ -11,6 +11,7 @@ from record.models import InvitationRecord, TelephoneChargesRecord
 from record.serializers import InvitationRecordSerializer, TelephoneChargesRecordSerializer
 from user_info.models import UserInfo, UserDetailInfo
 from record.utils import TelephoneChargesCompute
+from user_info.serializers import UserInfoSerializer
 
 logger = logging.getLogger('django')
 
@@ -62,8 +63,12 @@ class InvitationRecordView(mixins.CreateModelMixin, viewsets.GenericViewSet, mix
         params = request.query_params
         if not params.get('user_id'):
             raise serializers.ValidationError('未找到用户信息')
-        result = InvitationRecord.objects.filter(inviter=params.get('user_id'), type=1).\
+        invitee_list = InvitationRecord.objects.filter(inviter=params.get('user_id'), type=1). \
             values_list('invitee_avatar_url', 'invitee_nickname', flat=True)
+        current_user = UserInfo.objects.filter(openid=params.get('user_id')).first()
+        result = dict()
+        result['invitee_list'] = invitee_list
+        result['current_user'] = UserInfoSerializer(current_user).data
         return Response(result)
 
 

@@ -83,7 +83,7 @@ class UserDetailInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixin
 
     def create(self, request, *args, **kwargs):
         print('#'*70)
-        print(kwargs)
+        print(request.data)
         return super().create(request, *args, **kwargs)
 
     def get_queryset(self):

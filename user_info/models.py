@@ -29,12 +29,10 @@ class UserInfo(models.Model):
 
 class UserDetailInfo(models.Model):
     STATUS_CHOICE = (
-        (0, '提交资料'),
-        (1, '身份确认中'),
-        (2, '身份验证失败'),
-        (3, '身份通过'),
-        (4, '待发卡'),
-        (5, '已发卡'),
+        (0, '身份确认中'),
+        (1, '身份验证失败'),
+        (2, '待发卡'),
+        (3, '已发卡'),
     )
     MAN_MADE_STATUS_CHOICE = (
         (-1, '人工审核暂未操作'),

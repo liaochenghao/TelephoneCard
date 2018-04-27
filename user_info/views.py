@@ -126,7 +126,7 @@ class UserDetailInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixin
         status = params.get('status')
         if not all((openid, status)):
             raise serializers.ValidationError('Param (openid, status) is not none')
-        if status not in ('0', '1', '2', '3', '4', '5'):
+        if status not in ('0', '1', '2', '3'):
             raise serializers.ValidationError('Param status invalid')
         user_detail = UserDetailInfo.objects.filter(user_id=openid).first()
         if not user_detail:
@@ -152,12 +152,12 @@ class UserDetailInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixin
             raise serializers.ValidationError('Param (operator, target_user_id, status) is not none')
         if status not in ('0', '1'):
             raise serializers.ValidationError('Param status invalid')
-        user_detail = UserDetailInfo.objects.filter(user=target_user_id).first()
+        user_detail = UserDetailInfo.objects.filter(user_id=target_user_id).first()
         if not user_detail:
             raise serializers.ValidationError('User Not Exist')
-        if status == 0 and user_detail.status >= 3:
+        if status == 0 and user_detail.status >= 2:
             raise serializers.ValidationError('快速通道已通过审核')
-        user_detail.status = 2 if status == 0 else 3
+        user_detail.status = 1 if status == 0 else 2
         user_detail.man_made_status = status
         user_detail.save()
         # 将人工审核记录录入到后台数据库

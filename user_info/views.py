@@ -257,8 +257,8 @@ class UserDetailInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixin
 
 
 class BackendUserView(APIView):
-    def get(self, request):
-        params = request.query_params
+    def post(self, request):
+        params = request.data
         username = params.get('username')
         password = params.get('password')
         user = BackendUser.objects.filter(user_name=username, password=password).first()

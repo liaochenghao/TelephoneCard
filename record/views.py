@@ -102,3 +102,11 @@ class TelephoneChargesRecordView(mixins.CreateModelMixin, viewsets.GenericViewSe
         TelephoneChargesCompute.compute_telephone_charges(inviter.openid, 1, 10, extra='邀请用户' + user_id)
         TelephoneChargesCompute.compute_telephone_charges(user_id, 2, 10, extra='接受用户' + user_id + '邀请')
         return Response()
+
+    @list_route(['GET'])
+    def balance(self, request):
+        params = request.query_params
+        if not params.get('user_id'):
+            raise serializers.ValidationError('param user_id is none')
+        result = TelephoneChargesRecord.objects.filter(user_id=params.get('user_id')).values('balance').first()
+        return Response(result)

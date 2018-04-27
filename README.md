@@ -23,6 +23,7 @@
 - [创建用户微信信息接口](docs/create_user_info.md)
 - [通过code验证微信用户信息接口](docs/code_auth.md)
 - [插入用户微信信息接口](docs/check_account.md)
+- [获取用户微信信息接口](docs/get_user_info.md)
 - [获取用户详细信息列表接口](docs/get_detail_user_info_list.md)
 - [创建用户详细信息接口](docs/create_detail_user_info.md)
 - [检查用户是否录入详细信息接口](docs/check_detail_user_info.md)
@@ -42,4 +43,5 @@
 - [发送模板消息接口](docs/send_template_message.md)
 - [邀请用户扫码加话费接口](docs/add_charges.md)
 - [被邀请的用户信息列表](docs/invitee_info_list.md)
+- [获取用户话费总额](docs/get_charges_balance.md)
 

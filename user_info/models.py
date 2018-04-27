@@ -74,3 +74,14 @@ class BackendUser(models.Model):
 
     class Meta:
         db_table = 'backend_user'
+
+
+class TemplateInfo(models.Model):
+    id = models.AutoField('序号', primary_key=True)
+    template_id = models.CharField('模板ID', max_length=64)
+    extra = models.CharField('描述信息', max_length=255)
+    type = models.IntegerField('类别标记')
+    create_at = models.DateTimeField('创建时间', auto_now_add=True, null=True)
+
+    class Meta:
+        db_table = 'template_info'

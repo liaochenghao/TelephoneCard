@@ -8,11 +8,10 @@ import logging
 import re
 
 from rest_framework.views import APIView
-
 from activity_info.models import ActivityInfo
 from activity_info.serializers import ActivityInfoSerializer
 from record.models import ManMadeRecord
-from user_info.models import UserInfo, UserDetailInfo, BackendUser
+from user_info.models import UserInfo, UserDetailInfo, BackendUser, TemplateInfo
 from user_info.serializers import UserInfoSerializer, UserDetailInfoSerializer
 from utils.weixin_functions import WxInterfaceUtil
 from utils.WXBizDataCrypt import WXBizDataCrypt
@@ -179,6 +178,45 @@ class UserDetailInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixin
         result['status'] = status
         result['activity_info'] = ActivityInfoSerializer(activity_info).data
         return Response(result)
+
+    @list_route(['POST'])
+    def send_template_message(self, request):
+        data = request.data
+        to_user = data.get('to_user')
+        _type = data.get('type')
+        page = data.get('page')
+        form_id = data.get('form_id')
+        if not all((to_user, _type, page, form_id)):
+            raise serializers.ValidationError('Param (to_user, type, page, form_id) is not none')
+        template_info = TemplateInfo.objects.filter(type=_type).first()
+        if not template_info:
+            raise serializers.ValidationError('未找到对应的模板信息')
+        params = {
+            "touser": to_user,
+            "template_id": template_info.template_id,
+            "page": page,
+            "form_id": form_id,
+            "data": {
+                "keyword1": {
+                    "value": "339208499",
+                    "color": "#173177"
+                },
+                "keyword2": {
+                    "value": "2015年01月05日 12:30",
+                    "color": "#173177"
+                },
+                "keyword3": {
+                    "value": "粤海喜来登酒店",
+                    "color": "#173177"
+                },
+                "keyword4": {
+                    "value": "广州市天河区天河路208号",
+                    "color": "#173177"
+                }
+            }
+        }
+        WxInterfaceUtil.send_template_message(params)
+        return Response()
 
 
 class BackendUserView(APIView):

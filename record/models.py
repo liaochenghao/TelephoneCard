@@ -10,7 +10,7 @@ class InvitationRecord(models.Model):
     inviter = models.CharField('邀请人编号', max_length=64, db_index=True)
     invitee = models.CharField('被邀请人编号', max_length=64)
     invitee_nickname = models.CharField('被邀请人昵称', max_length=64)
-    invitee_avatar_url = models.CharField('被邀请人头像', max_length=64)
+    invitee_avatar_url = models.CharField('被邀请人头像', max_length=255)
     extra = models.CharField('备注信息', max_length=255, null=True)
     create_at = models.DateTimeField('邀请时间', auto_now_add=True, null=True)
 

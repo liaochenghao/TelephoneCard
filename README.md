@@ -36,4 +36,5 @@
 - [快速通道记录](docs/quick_pass_record.md)
 - [后台管理员登陆校验](docs/backend_user_login.md)
 - [邀请用户扫码加话费接口](docs/add_charges.md)
+- [被邀请的用户信息列表](docs/invitee_info_list.md)
 

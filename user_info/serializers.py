@@ -15,9 +15,9 @@ class UserDetailInfoSerializer(serializers.ModelSerializer):
         model = UserDetailInfo
         fields = ['user_id', 'c_name', 'country', 'university', 'email', 'grade', 'wechat', 'invite_code', 'abroad_time',
                   'recipients_name', 'recipients_phone', 'recipients_address', 'status', 'create_at']
-        # read_only_fields = ['user_id']
+        read_only_fields = ['user_id']
 
     def create(self, validated_data):
-        # validated_data['user_id'] = self.context.get('request').get('user_id')
-        print(validated_data)
+        data = self.context['request'].data
+        validated_data['user_id'] = data.get('user_id')
         return super().create(validated_data)

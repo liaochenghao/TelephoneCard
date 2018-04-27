@@ -81,12 +81,6 @@ class UserDetailInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixin
     queryset = UserDetailInfo.objects.all()
     serializer_class = UserDetailInfoSerializer
 
-    def create(self, request, *args, **kwargs):
-        print('#'*70)
-        print(request.data.get('user_id'))
-        kwargs['user_id'] = request.data.get('user_id')
-        return super().create(request, *args, **kwargs)
-
     def get_queryset(self):
         queryset = super().get_queryset()
         param = self.request.query_params

@@ -27,6 +27,7 @@
 - [获取短信验证码接口](docs/message_code.md)
 - [获取用户详细信息列表接口](docs/get_detail_user_info_list.md)
 - [创建用户详细信息接口](docs/create_detail_user_info.md)
+- [检查用户是否录入详细信息接口](docs/check_detail_user_info.md)
 - [修改用户详细信息接口](docs/update_detail_user_info.md)
 - [修改用户状态接口](docs/update_detail_user_status.md)
 - [人工审核修改用户状态接口](docs/manmade_update_detail_user_status.md)

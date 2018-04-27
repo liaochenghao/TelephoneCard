@@ -15,3 +15,4 @@ class UserDetailInfoSerializer(serializers.ModelSerializer):
         model = UserDetailInfo
         fields = ['user', 'c_name', 'country', 'university', 'email', 'grade', 'wechat', 'invite_code', 'abroad_time',
                   'recipients_name', 'recipients_phone', 'recipients_address', 'status', 'create_at']
+        read_only_fields = ['user']

@@ -13,6 +13,7 @@ class UserInfoSerializer(serializers.ModelSerializer):
 class UserDetailInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserDetailInfo
-        fields = ['user', 'c_name', 'country', 'university', 'email', 'grade', 'wechat', 'invite_code', 'abroad_time',
+        fields = ['user_id', 'c_name', 'country', 'university', 'email', 'grade', 'wechat', 'invite_code', 'abroad_time',
                   'recipients_name', 'recipients_phone', 'recipients_address', 'status', 'create_at']
-        read_only_fields = ['user']
+        # read_only_fields = ['user_id']
+

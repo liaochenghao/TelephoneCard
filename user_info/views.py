@@ -102,7 +102,7 @@ class UserDetailInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixin
         params = request.query_params
         if not params.get('openid'):
             raise serializers.ValidationError('Param openid is none')
-        user_detail_info = UserDetailInfo.objects.filter(openid=params.get('openid')).first()
+        user_detail_info = UserDetailInfo.objects.filter(user_id=params.get('openid')).first()
         return Response(True if user_detail_info else False)
 
     @list_route(['GET'])
@@ -162,9 +162,16 @@ class UserDetailInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixin
         ManMadeRecord.objects.create(id=str(uuid.uuid4()), operator=operator, target_user=target_user_id, extra=extra)
         return Response()
 
+    @list_route(['GET'])
+    def get_user_status(self, request):
+        params = request.data
+        openid = params.get('openid')
+        if not openid:
+            raise serializers.ValidationError('param openid is none')
+        pass
+
 
 class BackendUserView(APIView):
-
     def get(self, request):
         params = request.query_params
         username = params.get('username')

@@ -54,7 +54,7 @@ class UserInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixins.List
         update_user_tag = False
         if not user_info.unionid:
             update_user_tag = True
-            # 如果用户已经获取到unionid，则不需要解密
+            # 如果用户未获取到unionid，则需要解密获取
             data = WXBizDataCrypt(WX_SMART_CONFIG['appid'], session_key)
             user_data = data.decrypt(encryptedData, iv)
             user_info.unionid = user_data.get('unionId')

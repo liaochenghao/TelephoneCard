@@ -22,8 +22,19 @@ if not os.path.isdir(MEDIA_ROOT):
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
-
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '*']
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_URLS_REGEX = '^.*$'
+CORS_ALLOW_METHODS = (
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS'
+)
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = ('Content-Type', 'X-Requested-With',)
 # Application definition
 
 INSTALLED_APPS = [
@@ -199,4 +210,3 @@ TELEPHONE_MESSAGE_CONFIG = {
     'id': 'winhelper',
     'pwd': 'x564787'
 }
-

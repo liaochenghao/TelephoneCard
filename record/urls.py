@@ -15,9 +15,10 @@ Including another URLconf
 """
 from rest_framework import routers
 
-from record.views import InvitationRecordView
+from record.views import InvitationRecordView, TelephoneChargesRecordView
 
 router = routers.SimpleRouter()
 router.register(r'record', InvitationRecordView)
+router.register(r'telephone', TelephoneChargesRecordView)
 
 urlpatterns = router.urls

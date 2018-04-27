@@ -81,3 +81,4 @@ class TelephoneChargesRecordView(mixins.CreateModelMixin, viewsets.GenericViewSe
             raise serializers.ValidationError('无法根据code获得邀请人')
         TelephoneChargesCompute.compute_telephone_charges(inviter.openid, 1, 10, extra='邀请用户' + user_id)
         TelephoneChargesCompute.compute_telephone_charges(user_id, 2, 10, extra='接受用户' + user_id + '邀请')
+        return Response()

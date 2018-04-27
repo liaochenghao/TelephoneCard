@@ -1,5 +1,6 @@
 import uuid
 
+import time
 from django.db import transaction
 from rest_framework import mixins, viewsets, serializers
 from rest_framework.decorators import list_route
@@ -11,7 +12,7 @@ from rest_framework.views import APIView
 from activity_info.models import ActivityInfo
 from activity_info.serializers import ActivityInfoSerializer
 from record.models import ManMadeRecord
-from user_info.models import UserInfo, UserDetailInfo, BackendUser, TemplateInfo
+from user_info.models import UserInfo, UserDetailInfo, BackendUser, TemplateInfo, UserFormId
 from user_info.serializers import UserInfoSerializer, UserDetailInfoSerializer
 from utils.weixin_functions import WxInterfaceUtil
 from utils.WXBizDataCrypt import WXBizDataCrypt
@@ -75,6 +76,14 @@ class UserInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixins.List
             user_info.save()
             logger.info('更新用户信息: openid=%s' % params.get('openid'))
         return Response()
+
+    @list_route(['POST'])
+    def take_formid(self, request):
+        params = request.data
+        openid = params.get('openid')
+        formid = params.get('formid')
+        UserFormId.objects.create(user_id=openid, form_id=formid, expiration_time=time.time() + 7 * 24 * 60 * 60)
+        return Response('成功')
 
 
 class UserDetailInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixins.ListModelMixin,
@@ -161,6 +170,34 @@ class UserDetailInfoView(mixins.CreateModelMixin, viewsets.GenericViewSet, mixin
         user_detail.save()
         # 将人工审核记录录入到后台数据库
         ManMadeRecord.objects.create(id=str(uuid.uuid4()), operator=operator, target_user=target_user_id, extra=extra)
+        formid_obj = UserFormId.objects.filter(user_id=target_user_id, expiration_time__gt=time.time()).first()
+        if formid_obj:
+            template_info = TemplateInfo.objects.filter(type=2).first()
+            data = {
+                "touser": formid_obj.user_id,
+                "template_id": template_info.template_id,
+                "form_id": formid_obj.form_id,
+                "data": {
+                    "keyword1": {
+                        "value": "339208499",
+                        "color": "#173177"
+                    },
+                    "keyword2": {
+                        "value": "2015年01月05日 12:30",
+                        "color": "#173177"
+                    },
+                    "keyword3": {
+                        "value": "粤海喜来登酒店",
+                        "color": "#173177"
+                    },
+                    "keyword4": {
+                        "value": "广州市天河区天河路208号",
+                        "color": "#173177"
+                    }
+                }
+            }
+            WxInterfaceUtil.send_template_message(data)
+
         return Response()
 
     @list_route(['GET'])

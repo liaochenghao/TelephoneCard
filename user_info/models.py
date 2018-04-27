@@ -85,3 +85,14 @@ class TemplateInfo(models.Model):
 
     class Meta:
         db_table = 'template_info'
+
+
+class UserFormId(models.Model):
+    user = models.ForeignKey(UserInfo, on_delete=models.DO_NOTHING, primary_key=True)
+    form_id = models.CharField('FormId', max_length=100)
+    create_at = models.DateTimeField('创建时间', auto_now_add=True, null=True)
+    expiration_time = models.DateTimeField('过期时间', null=True)
+
+    class Meta:
+        db_table = 'user_formid'
+        ordering = ['-create_at']

@@ -53,3 +53,15 @@ class TelephoneChargesRecord(models.Model):
     class Meta:
         db_table = 'telephone_charges_record'
         ordering = ['-create_at']
+
+
+class TelephoneCodeRecord(models.Model):
+    id = models.CharField('序列号', primary_key=True, max_length=64)
+    telephone = models.CharField('电话号码', max_length=64)
+    code = models.CharField('短信验证码', max_length=64)
+    create_at = models.DateTimeField('创建时间', auto_now_add=True, null=True)
+
+    class Meta:
+        db_table = 'telephone_code_record'
+        ordering = ['-create_at']
+

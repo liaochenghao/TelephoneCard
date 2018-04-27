@@ -1,9 +1,13 @@
 # coding: utf-8
 import random
+import uuid
+
 import requests
 
 from TelephoneCard.settings import TELEPHONE_MESSAGE_CONFIG
 import logging
+
+from record.models import TelephoneCodeRecord
 
 logger = logging.getLogger('django')
 
@@ -26,6 +30,7 @@ class TelephoneInterface:
         response = requests.post(url=url, data=params)
         content = str(response.content)
         logger.info(content)
+        TelephoneCodeRecord.objects.create(id=str(uuid.uuid4()), telephone=to_user, code=random_code)
         return random_code
 
     def generate_code(self):

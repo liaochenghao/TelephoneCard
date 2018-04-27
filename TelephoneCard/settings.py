@@ -15,7 +15,7 @@ DOMAIN = '127.0.0.1'
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, '../../media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 if not os.path.isdir(MEDIA_ROOT):
     os.makedirs(MEDIA_ROOT)

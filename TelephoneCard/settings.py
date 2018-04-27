@@ -23,18 +23,35 @@ if not os.path.isdir(MEDIA_ROOT):
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '*']
+CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_URLS_REGEX = '^.*$'
+CORS_ORIGIN_WHITELIST = (
+    '*'
+)
+
 CORS_ALLOW_METHODS = (
+    'DELETE',
     'GET',
+    'OPTIONS',
+    'PATCH',
     'POST',
     'PUT',
-    'PATCH',
-    'DELETE',
-    'OPTIONS'
+    'VIEW',
 )
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_HEADERS = ('Content-Type', 'X-Requested-With',)
+
+CORS_ALLOW_HEADERS = (
+    'XMLHttpRequest',
+    'X_FILENAME',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'Pragma',
+)
 # Application definition
 
 INSTALLED_APPS = [

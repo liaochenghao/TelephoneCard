@@ -7,7 +7,7 @@ from record.models import InvitationRecord, TelephoneChargesRecord
 class InvitationRecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = InvitationRecord
-        fields = ['id', 'inviter', 'invitee', 'extra', 'create_at']
+        fields = ['id', 'inviter', 'invitee', 'invitee_nickname', 'invitee_avatar_url', 'extra', 'create_at']
 
 
 class TelephoneChargesRecordSerializer(serializers.ModelSerializer):

@@ -25,16 +25,23 @@ class InvitationRecordView(mixins.CreateModelMixin, viewsets.GenericViewSet, mix
     def invitation(self, request):
         params = request.query_params
         invite_code = params.get('invite_code')
+        invitee_nickname = params.get('invitee_nickname')
+        invitee_avatar_url = params.get('invitee_avatar_url')
         unionid = params.get('unionid')
-        if not all((invite_code, unionid)):
-            raise serializers.ValidationError('Param (invite_code, unionid) must not be none')
+        if not all((invite_code, unionid, invitee_nickname, invitee_avatar_url)):
+            raise serializers.ValidationError(
+                'Param (invite_code, unionid, invitee_nickname, invitee_avatar_url) must not be none')
         logger.info('=' * 70)
         logger.info('invite_code= %s ,unionid=%s' % (invite_code, unionid))
         logger.info('=' * 70)
         user_info = UserInfo.objects.filter(code=invite_code).first()
         if not user_info:
             raise serializers.ValidationError('邀请码无效，请仔细检查')
-        InvitationRecord.objects.create(id=str(uuid.uuid4()), inviter=user_info.openid, invitee=unionid)
+        record = InvitationRecord.objects.filter(inviter=user_info.openid, invitee=unionid).first()
+        if record:
+            raise serializers.ValidationError('您已成功帮助好友【'+user_info.nickname+'】进行认证咯')
+        InvitationRecord.objects.create(id=str(uuid.uuid4()), inviter=user_info.openid, invitee=unionid,
+                                        invitee_nickname=invitee_nickname, invitee_avatar_url=invitee_avatar_url)
         total = InvitationRecord.objects.filter(inviter=user_info.openid).count()
         if total >= 3:
             # 快速通道审核成功
